@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpij2pe2w0d0p"]
+
+[ext_resource type="Theme" uid="uid://bxdxufrhfbllf" path="res://resources/light.tres" id="1_570bd"]
+[ext_resource type="PackedScene" uid="uid://c2ak6h4w7axdo" path="res://scenes/main_menu.tscn" id="2_b4dbi"]
+
+[node name="App" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_570bd")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.95, 0.95, 0.95, 1)
+
+[node name="MainMenu" parent="." instance=ExtResource("2_b4dbi")]
+layout_mode = 1
