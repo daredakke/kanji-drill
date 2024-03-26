@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://d0e3meb6rsq8d"
-path="res://.godot/imported/AOTFShinGoProHeavy.otf-fd7d874b3596f7c0336bdef01611be3a.fontdata"
+path="res://.godot/imported/AOTFShinGoProHeavy.otf-7f8fa9d36daa38072b2adf48fdb6172e.fontdata"
 
 [deps]
 
-source_file="res://assets/AOTFShinGoProHeavy.otf"
-dest_files=["res://.godot/imported/AOTFShinGoProHeavy.otf-fd7d874b3596f7c0336bdef01611be3a.fontdata"]
+source_file="res://assets/fonts/AOTFShinGoProHeavy.otf"
+dest_files=["res://.godot/imported/AOTFShinGoProHeavy.otf-7f8fa9d36daa38072b2adf48fdb6172e.fontdata"]
 
 [params]
 
