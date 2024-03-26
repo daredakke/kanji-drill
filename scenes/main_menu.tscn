@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://c2ak6h4w7axdo"]
+[gd_scene load_steps=3 format=3 uid="uid://c2ak6h4w7axdo"]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_y1pkf"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_axuph"]
 
@@ -9,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_y1pkf")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -37,17 +40,20 @@ theme_override_constants/separation = 16
 theme_override_styles/separator = SubResource("StyleBoxEmpty_axuph")
 
 [node name="QuizButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 36
 text = "START QUIZ"
 
 [node name="SettingsButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_default_cursor_shape = 2
 text = "SETTINGS"
 
 [node name="QuitButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_default_cursor_shape = 2
 text = "QUIT"
