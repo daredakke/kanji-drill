@@ -165,7 +165,7 @@ focus_neighbor_top = NodePath("../../StartHBox/StartSpinBox")
 focus_neighbor_bottom = NodePath("../../QuestionsHBox/QuestionsSpinBox")
 focus_next = NodePath("../../QuestionsHBox/QuestionsSpinBox")
 focus_previous = NodePath("../../StartHBox/StartSpinBox")
-min_value = 2200.0
+min_value = 1.0
 max_value = 2200.0
 value = 2200.0
 rounded = true
@@ -201,3 +201,58 @@ focus_next = NodePath("../../../HeaderMargin/HeaderHBox/CloseButton")
 focus_previous = NodePath("../QuestionsHBox/QuestionsSpinBox")
 mouse_default_cursor_shape = 2
 text = "START"
+
+[node name="ErrorMargin" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 350
+theme_override_constants/margin_top = 220
+theme_override_constants/margin_right = 350
+theme_override_constants/margin_bottom = 220
+
+[node name="ErrorPanel" type="Panel" parent="ErrorMargin"]
+layout_mode = 2
+
+[node name="InnerMargin" type="MarginContainer" parent="ErrorMargin/ErrorPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="ErrorVBox" type="VBoxContainer" parent="ErrorMargin/ErrorPanel/InnerMargin"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 48
+
+[node name="ErrorLabel" type="Label" parent="ErrorMargin/ErrorPanel/InnerMargin/ErrorVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "ERROR"
+horizontal_alignment = 1
+
+[node name="ErrorMessage" type="Label" parent="ErrorMargin/ErrorPanel/InnerMargin/ErrorVBox"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "START VALUE CANNOT BE GREATER THAN THE END VALUE"
+autowrap_mode = 2
+
+[node name="CloseErrorButton" type="Button" parent="ErrorMargin/ErrorPanel/InnerMargin/ErrorVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+focus_next = NodePath(".")
+focus_previous = NodePath(".")
+mouse_default_cursor_shape = 2
+text = "CLOSE"
