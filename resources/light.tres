@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=16 format=3 uid="uid://bxdxufrhfbllf"]
+[gd_resource type="Theme" load_steps=17 format=3 uid="uid://bxdxufrhfbllf"]
 
 [ext_resource type="FontFile" uid="uid://d0e3meb6rsq8d" path="res://assets/fonts/AOTFShinGoProHeavy.otf" id="1_2ajnb"]
 [ext_resource type="Texture2D" uid="uid://gaikxulv6b6w" path="res://assets/checkbox-checked-disabled.png" id="2_un16q"]
@@ -48,6 +48,9 @@ bg_color = Color(0.97, 0.97, 0.97, 1)
 shadow_color = Color(0, 0, 0, 0.137255)
 shadow_size = 12
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ss0m7"]
+size = Vector2(0, 0)
+
 [resource]
 Button/colors/font_color = Color(0.95, 0.95, 0.95, 1)
 Button/font_sizes/font_size = 24
@@ -76,3 +79,4 @@ Label/fonts/font = ExtResource("1_2ajnb")
 LineEdit/fonts/font = ExtResource("1_2ajnb")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_vy12l")
 Panel/styles/panel = SubResource("StyleBoxFlat_qvah3")
+SpinBox/icons/updown = SubResource("PlaceholderTexture2D_ss0m7")

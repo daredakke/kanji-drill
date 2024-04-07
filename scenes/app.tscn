@@ -29,4 +29,5 @@ layout_mode = 1
 
 [node name="Settings" parent="." instance=ExtResource("4_k754o")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1

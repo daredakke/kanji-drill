@@ -2,7 +2,6 @@ class_name Settings
 extends Control
 
 
-var _is_fullscreen: bool = false
 var _master_bus: int = AudioServer.get_bus_index("Master")
 
 @onready var close_button: Button = %CloseButton
