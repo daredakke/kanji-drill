@@ -18,6 +18,8 @@ signal quit_button_pressed
 
 
 func _ready() -> void:
+	setup_panel.hide()
+	
 	quiz_button.pressed.connect(setup_panel.show)
 	close_button.pressed.connect(setup_panel.hide)
 	settings_button.pressed.connect(_show_settings)
