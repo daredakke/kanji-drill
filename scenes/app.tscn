@@ -30,11 +30,6 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 1
 
-[node name="Settings" parent="." instance=ExtResource("4_k754o")]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-
 [node name="Quiz" type="Control" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
@@ -146,3 +141,8 @@ focus_next = NodePath("../../../HeaderMargin/ButtonsHBox/SettingsButton")
 focus_previous = NodePath("../AnswerInput")
 mouse_default_cursor_shape = 2
 text = "SUBMIT ANSWER"
+
+[node name="Settings" parent="." instance=ExtResource("4_k754o")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
