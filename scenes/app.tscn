@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://dpij2pe2w0d0p"]
+[gd_scene load_steps=7 format=3 uid="uid://dpij2pe2w0d0p"]
 
 [ext_resource type="Theme" uid="uid://bxdxufrhfbllf" path="res://resources/light.tres" id="1_570bd"]
 [ext_resource type="PackedScene" uid="uid://c2ak6h4w7axdo" path="res://scenes/main_menu.tscn" id="2_b4dbi"]
 [ext_resource type="Script" path="res://scripts/app.gd" id="2_nog32"]
 [ext_resource type="PackedScene" uid="uid://bwdhpi8u68q5u" path="res://scenes/settings.tscn" id="4_k754o"]
+[ext_resource type="Script" path="res://scripts/quiz.gd" id="5_3p7uq"]
+[ext_resource type="FontFile" uid="uid://btl1hr7d3d21w" path="res://assets/fonts/NotoSansJP-Regular.otf" id="5_htg7l"]
 
 [node name="App" type="Control"]
 layout_mode = 3
@@ -25,9 +27,122 @@ grow_vertical = 2
 
 [node name="MainMenu" parent="." instance=ExtResource("2_b4dbi")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 
 [node name="Settings" parent="." instance=ExtResource("4_k754o")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
+
+[node name="Quiz" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_3p7uq")
+
+[node name="HeaderMargin" type="MarginContainer" parent="Quiz"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="QuestionsHBox" type="HBoxContainer" parent="Quiz/HeaderMargin"]
+layout_mode = 2
+
+[node name="QuestionsLabel" type="Label" parent="Quiz/HeaderMargin/QuestionsHBox"]
+layout_mode = 2
+text = "QUESTION:"
+
+[node name="QuestionsValue" type="Label" parent="Quiz/HeaderMargin/QuestionsHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1000/2000"
+
+[node name="TimeValue" type="Label" parent="Quiz/HeaderMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "00:00"
+
+[node name="ButtonsHBox" type="HBoxContainer" parent="Quiz/HeaderMargin"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 12
+
+[node name="SettingsButton" type="Button" parent="Quiz/HeaderMargin/ButtonsHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath("../../../QuizVBox/AnswerVBox/SubmitButton")
+focus_neighbor_right = NodePath("../MainMenuButton")
+focus_neighbor_bottom = NodePath("../../../QuizVBox/AnswerVBox/AnswerInput")
+focus_next = NodePath("../MainMenuButton")
+focus_previous = NodePath("../../../QuizVBox/AnswerVBox/AnswerInput")
+mouse_default_cursor_shape = 2
+text = "SETTINGS"
+
+[node name="MainMenuButton" type="Button" parent="Quiz/HeaderMargin/ButtonsHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_left = NodePath("../SettingsButton")
+focus_neighbor_top = NodePath("../../../QuizVBox/AnswerVBox/SubmitButton")
+focus_neighbor_bottom = NodePath("../../../QuizVBox/AnswerVBox/AnswerInput")
+focus_next = NodePath("../../../QuizVBox/AnswerVBox/AnswerInput")
+focus_previous = NodePath("../SettingsButton")
+mouse_default_cursor_shape = 2
+text = "MAIN MENU"
+
+[node name="QuizVBox" type="VBoxContainer" parent="Quiz"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="KanjiValue" type="Label" parent="Quiz/QuizVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("5_htg7l")
+theme_override_font_sizes/font_size = 288
+text = "認"
+horizontal_alignment = 1
+
+[node name="AnswerVBox" type="VBoxContainer" parent="Quiz/QuizVBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="AnswerInput" type="LineEdit" parent="Quiz/QuizVBox/AnswerVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath("../../../HeaderMargin/ButtonsHBox/SettingsButton")
+focus_neighbor_bottom = NodePath("../SubmitButton")
+focus_next = NodePath("../SubmitButton")
+focus_previous = NodePath("../../../HeaderMargin/ButtonsHBox/SettingsButton")
+theme_override_font_sizes/font_size = 24
+alignment = 1
+
+[node name="SubmitButton" type="Button" parent="Quiz/QuizVBox/AnswerVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath("../AnswerInput")
+focus_neighbor_bottom = NodePath("../../../HeaderMargin/ButtonsHBox/SettingsButton")
+focus_next = NodePath("../../../HeaderMargin/ButtonsHBox/SettingsButton")
+focus_previous = NodePath("../AnswerInput")
+mouse_default_cursor_shape = 2
+text = "SUBMIT ANSWER"

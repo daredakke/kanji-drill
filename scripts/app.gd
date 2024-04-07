@@ -4,13 +4,29 @@ extends Control
 
 @onready var main_menu: MainMenu = %MainMenu
 @onready var settings: Settings = %Settings
+@onready var quiz: Quiz = %Quiz
 
 
 func _ready() -> void:
+	main_menu.quiz_started.connect(_on_quiz_started)
 	main_menu.settings_button_pressed.connect(settings.focus_menu)
 	main_menu.quit_button_pressed.connect(_quit_game)
 	
-	settings.settings_closed.connect(main_menu.focus_menu)
+	settings.settings_closed.connect(_settings_closed)
+
+
+func _on_quiz_started() -> void:
+	State.state = State.Mode.QUIZ
+	
+	main_menu.hide()
+	quiz.show()
+
+
+func _settings_closed() -> void:
+	if State.state == State.Mode.MAIN_MENU:
+		main_menu.focus_menu()
+	elif State.state == State.Mode.QUIZ:
+		pass
 
 
 func _quit_game() -> void:

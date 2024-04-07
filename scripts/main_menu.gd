@@ -2,6 +2,7 @@ class_name MainMenu
 extends Control
 
 
+signal quiz_started
 signal settings_button_pressed
 signal quit_button_pressed
 
@@ -23,6 +24,7 @@ signal quit_button_pressed
 func _ready() -> void:
 	setup_panel.hide()
 	error_margin.hide()
+	show()
 	focus_menu()
 	
 	quiz_button.pressed.connect(setup_panel.show)
@@ -70,7 +72,7 @@ func _on_start_button_pressed() -> void:
 		close_error_button.grab_focus()
 		return
 	
-	print("START")
+	quiz_started.emit()
 
 
 func _on_close_error_message() -> void:
