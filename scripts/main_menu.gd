@@ -27,8 +27,8 @@ func _ready() -> void:
 	show()
 	focus_menu()
 	
-	quiz_button.pressed.connect(setup_panel.show)
-	close_button.pressed.connect(setup_panel.hide)
+	quiz_button.pressed.connect(_show_setup_panel)
+	close_button.pressed.connect(_hide_setup_panel)
 	settings_button.pressed.connect(_show_settings)
 	quit_button.pressed.connect(_quit_game)
 	
@@ -52,6 +52,17 @@ func _show_settings() -> void:
 
 func _quit_game() -> void:
 	quit_button_pressed.emit()
+
+
+func _show_setup_panel() -> void:
+	setup_panel.show()
+	_disable_main_menu()
+	start_button.grab_focus()
+
+
+func _hide_setup_panel() -> void:
+	setup_panel.hide()
+	focus_menu()
 
 
 func _on_start_spinbox_value_changed(value: int) -> void:

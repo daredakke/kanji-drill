@@ -40,6 +40,7 @@ func _show_settings() -> void:
 func _show_main_menu_dialogue() -> void:
 	dialogue.show()
 	_disable_quiz()
+	no_button.grab_focus()
 
 
 func _hide_main_menu_dialogue() -> void:
