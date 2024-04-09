@@ -142,6 +142,72 @@ focus_previous = NodePath("../AnswerInput")
 mouse_default_cursor_shape = 2
 text = "SUBMIT ANSWER"
 
+[node name="DialogueMargin" type="MarginContainer" parent="Quiz"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 350
+theme_override_constants/margin_top = 280
+theme_override_constants/margin_right = 350
+theme_override_constants/margin_bottom = 280
+
+[node name="DialoguePanel" type="Panel" parent="Quiz/DialogueMargin"]
+layout_mode = 2
+
+[node name="InnerMargin" type="MarginContainer" parent="Quiz/DialogueMargin/DialoguePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="ErrorVBox" type="VBoxContainer" parent="Quiz/DialogueMargin/DialoguePanel/InnerMargin"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 48
+
+[node name="ErrorMessage" type="Label" parent="Quiz/DialogueMargin/DialoguePanel/InnerMargin/ErrorVBox"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "QUIT AND RETURN TO MAIN MENU?"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Quiz/DialogueMargin/DialoguePanel/InnerMargin/ErrorVBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="YesButton" type="Button" parent="Quiz/DialogueMargin/DialoguePanel/InnerMargin/ErrorVBox/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../NoButton")
+focus_neighbor_right = NodePath("../NoButton")
+focus_next = NodePath("../NoButton")
+focus_previous = NodePath("../NoButton")
+mouse_default_cursor_shape = 2
+text = "YES"
+
+[node name="NoButton" type="Button" parent="Quiz/DialogueMargin/DialoguePanel/InnerMargin/ErrorVBox/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../YesButton")
+focus_neighbor_right = NodePath("../YesButton")
+focus_next = NodePath("../YesButton")
+focus_previous = NodePath("../YesButton")
+mouse_default_cursor_shape = 2
+text = "NO"
+
 [node name="Settings" parent="." instance=ExtResource("4_k754o")]
 unique_name_in_owner = true
 visible = false

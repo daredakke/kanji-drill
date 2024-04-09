@@ -11,12 +11,20 @@ signal settings_button_pressed
 @onready var kanji_value: Label = %KanjiValue
 @onready var answer_input: LineEdit = %AnswerInput
 @onready var submit_button: Button = %SubmitButton
+# Dialogue
+@onready var dialogue: MarginContainer = %DialogueMargin
+@onready var yes_button: Button = %YesButton
+@onready var no_button: Button = %NoButton
 
 
 func _ready() -> void:
 	hide()
+	dialogue.hide()
 	
 	settings_button.pressed.connect(_show_settings)
+	main_menu_button.pressed.connect(_show_main_menu_dialogue)
+	yes_button.pressed.connect(_return_to_main_menu)
+	no_button.pressed.connect(_hide_main_menu_dialogue)
 
 
 func focus_input() -> void:
@@ -27,6 +35,21 @@ func focus_input() -> void:
 func _show_settings() -> void:
 	settings_button_pressed.emit()
 	_disable_quiz()
+
+
+func _show_main_menu_dialogue() -> void:
+	dialogue.show()
+	_disable_quiz()
+
+
+func _hide_main_menu_dialogue() -> void:
+	dialogue.hide()
+	_enable_quiz()
+
+
+func _return_to_main_menu() -> void:
+	dialogue.hide()
+	State.change_state(State.Mode.MAIN_MENU)
 
 
 func _disable_quiz() -> void:
