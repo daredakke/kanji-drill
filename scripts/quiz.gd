@@ -15,21 +15,42 @@ signal settings_button_pressed
 @onready var dialogue: MarginContainer = %DialogueMargin
 @onready var yes_button: Button = %YesButton
 @onready var no_button: Button = %NoButton
+# Answer
+@onready var answer: MarginContainer = %AnswerMargin
+@onready var kanji_label: Label = %KanjiLabel
+@onready var keyword_label: Label = %KeywordLabel
+@onready var result_label: Label = %ResultLabel
+@onready var next_button: Button = %NextButton
 
 
 func _ready() -> void:
 	hide()
 	dialogue.hide()
+	answer.hide()
 	
 	settings_button.pressed.connect(_show_settings)
 	main_menu_button.pressed.connect(_show_main_menu_dialogue)
 	yes_button.pressed.connect(_return_to_main_menu)
 	no_button.pressed.connect(_hide_main_menu_dialogue)
+	
+	submit_button.pressed.connect(_check_answer)
+	next_button.pressed.connect(_next_question)
 
 
 func focus_input() -> void:
 	answer_input.grab_focus()
 	_enable_quiz()
+
+
+func _check_answer() -> void:
+	answer.show()
+	next_button.grab_focus()
+	_disable_quiz()
+
+
+func _next_question() -> void:
+	answer.hide()
+	focus_input()
 
 
 func _show_settings() -> void:

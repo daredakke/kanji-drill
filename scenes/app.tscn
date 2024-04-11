@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://c2ak6h4w7axdo" path="res://scenes/main_menu.tscn" id="2_b4dbi"]
 [ext_resource type="Script" path="res://scripts/app.gd" id="2_nog32"]
 [ext_resource type="PackedScene" uid="uid://bwdhpi8u68q5u" path="res://scenes/settings.tscn" id="4_k754o"]
+[ext_resource type="FontFile" uid="uid://dcwyy07odv72x" path="res://assets/fonts/AOTFShinGoProRegular.otf" id="5_0vvsk"]
 [ext_resource type="Script" path="res://scripts/quiz.gd" id="5_3p7uq"]
-[ext_resource type="FontFile" uid="uid://btl1hr7d3d21w" path="res://assets/fonts/NotoSansJP-Regular.otf" id="5_htg7l"]
 
 [node name="App" type="Control"]
 layout_mode = 3
@@ -108,12 +108,13 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 48
 
 [node name="KanjiValue" type="Label" parent="Quiz/QuizVBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("5_htg7l")
+theme_override_fonts/font = ExtResource("5_0vvsk")
 theme_override_font_sizes/font_size = 288
 text = "認"
 horizontal_alignment = 1
@@ -144,6 +145,7 @@ text = "SUBMIT ANSWER"
 
 [node name="DialogueMargin" type="MarginContainer" parent="Quiz"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -207,6 +209,78 @@ focus_next = NodePath("../YesButton")
 focus_previous = NodePath("../YesButton")
 mouse_default_cursor_shape = 2
 text = "NO"
+
+[node name="AnswerMargin" type="MarginContainer" parent="Quiz"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 350
+theme_override_constants/margin_top = 215
+theme_override_constants/margin_right = 350
+theme_override_constants/margin_bottom = 215
+
+[node name="AnswerPanel" type="Panel" parent="Quiz/AnswerMargin"]
+layout_mode = 2
+
+[node name="InnerMargin" type="MarginContainer" parent="Quiz/AnswerMargin/AnswerPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="AnswerVBox" type="VBoxContainer" parent="Quiz/AnswerMargin/AnswerPanel/InnerMargin"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 48
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Quiz/AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="KanjiLabel" type="Label" parent="Quiz/AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_0vvsk")
+theme_override_font_sizes/font_size = 72
+text = "認"
+horizontal_alignment = 1
+
+[node name="KeywordLabel" type="Label" parent="Quiz/AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "ACKNOWLEDGE"
+horizontal_alignment = 2
+autowrap_mode = 2
+
+[node name="ResultLabel" type="Label" parent="Quiz/AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "CORRECT"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="NextButton" type="Button" parent="Quiz/AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+focus_next = NodePath(".")
+focus_previous = NodePath(".")
+mouse_default_cursor_shape = 2
+text = "NEXT QUESTION"
 
 [node name="Settings" parent="." instance=ExtResource("4_k754o")]
 unique_name_in_owner = true
