@@ -1,10 +1,11 @@
-[gd_resource type="Theme" load_steps=21 format=3 uid="uid://bxdxufrhfbllf"]
+[gd_resource type="Theme" load_steps=23 format=3 uid="uid://bxdxufrhfbllf"]
 
 [ext_resource type="FontFile" uid="uid://d0e3meb6rsq8d" path="res://assets/fonts/AOTFShinGoProHeavy.otf" id="1_2ajnb"]
 [ext_resource type="Texture2D" uid="uid://gaikxulv6b6w" path="res://assets/checkbox-checked-disabled.png" id="2_un16q"]
 [ext_resource type="Texture2D" uid="uid://cygenivsxg2ry" path="res://assets/checkbox-unchecked-disabled.png" id="3_iprv0"]
 [ext_resource type="Texture2D" uid="uid://br3s1aqmlgyk2" path="res://assets/slider-head.png" id="4_0sfiy"]
 [ext_resource type="Texture2D" uid="uid://cnsej2dmosrg3" path="res://assets/slider-head-highlight.png" id="5_nd17v"]
+[ext_resource type="FontFile" uid="uid://dcwyy07odv72x" path="res://assets/fonts/AOTFShinGoProRegular.otf" id="6_hl81p"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xyccp"]
 content_margin_left = 16.0
@@ -62,6 +63,13 @@ grow_begin = -2.0
 grow_end = -2.0
 thickness = 4
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hhwj8"]
+content_margin_left = 6.0
+content_margin_top = 4.0
+content_margin_right = 6.0
+content_margin_bottom = 4.0
+bg_color = Color(0.9, 0.9, 0.9, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gqmfc"]
 content_margin_left = 8.0
 content_margin_top = 8.0
@@ -114,6 +122,13 @@ HSlider/icons/grabber = ExtResource("4_0sfiy")
 HSlider/icons/grabber_highlight = ExtResource("5_nd17v")
 HSlider/styles/grabber_area_highlight = SubResource("StyleBoxLine_n6m4l")
 HSlider/styles/slider = SubResource("StyleBoxLine_iw5bp")
+ItemList/colors/font_color = Color(0, 0, 0, 1)
+ItemList/colors/font_hovered_color = Color(0, 0, 0, 1)
+ItemList/colors/font_selected_color = Color(0, 0, 0, 1)
+ItemList/constants/v_separation = 6
+ItemList/font_sizes/font_size = 16
+ItemList/fonts/font = ExtResource("6_hl81p")
+ItemList/styles/panel = SubResource("StyleBoxFlat_hhwj8")
 Label/colors/font_color = Color(0, 0, 0, 1)
 Label/font_sizes/font_size = 24
 Label/fonts/font = ExtResource("1_2ajnb")

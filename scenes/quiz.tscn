@@ -1,0 +1,263 @@
+[gd_scene load_steps=4 format=3 uid="uid://43l1a862jd7s"]
+
+[ext_resource type="Script" path="res://scripts/quiz.gd" id="1_a773k"]
+[ext_resource type="FontFile" uid="uid://dcwyy07odv72x" path="res://assets/fonts/AOTFShinGoProRegular.otf" id="2_qr7gd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ltu05"]
+
+[node name="Quiz" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_a773k")
+
+[node name="HeaderMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="QuestionsHBox" type="HBoxContainer" parent="HeaderMargin"]
+layout_mode = 2
+
+[node name="QuestionsLabel" type="Label" parent="HeaderMargin/QuestionsHBox"]
+layout_mode = 2
+text = "QUESTION:"
+
+[node name="QuestionsValue" type="Label" parent="HeaderMargin/QuestionsHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1000/2000"
+
+[node name="TimeValue" type="Label" parent="HeaderMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "00:00"
+
+[node name="ButtonsHBox" type="HBoxContainer" parent="HeaderMargin"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 12
+
+[node name="SettingsButton" type="Button" parent="HeaderMargin/ButtonsHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath("../../../QuizVBox/AnswerVBox/SubmitButton")
+focus_neighbor_right = NodePath("../MainMenuButton")
+focus_neighbor_bottom = NodePath("../../../QuizVBox/AnswerVBox/AnswerInput")
+focus_next = NodePath("../MainMenuButton")
+focus_previous = NodePath("../../../QuizVBox/AnswerVBox/AnswerInput")
+mouse_default_cursor_shape = 2
+text = "SETTINGS"
+
+[node name="MainMenuButton" type="Button" parent="HeaderMargin/ButtonsHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_left = NodePath("../SettingsButton")
+focus_neighbor_top = NodePath("../../../QuizVBox/AnswerVBox/SubmitButton")
+focus_neighbor_bottom = NodePath("../../../QuizVBox/AnswerVBox/AnswerInput")
+focus_next = NodePath("../../../QuizVBox/AnswerVBox/AnswerInput")
+focus_previous = NodePath("../SettingsButton")
+mouse_default_cursor_shape = 2
+text = "MAIN MENU"
+
+[node name="QuizVBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 48
+
+[node name="HSeparator" type="HSeparator" parent="QuizVBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+theme_override_styles/separator = SubResource("StyleBoxEmpty_ltu05")
+
+[node name="KanjiValue" type="Label" parent="QuizVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_qr7gd")
+theme_override_font_sizes/font_size = 288
+text = "認"
+horizontal_alignment = 1
+
+[node name="AnswerVBox" type="VBoxContainer" parent="QuizVBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="AnswerInput" type="LineEdit" parent="QuizVBox/AnswerVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath("../../../HeaderMargin/ButtonsHBox/SettingsButton")
+focus_neighbor_bottom = NodePath("../SubmitButton")
+focus_next = NodePath("../SubmitButton")
+focus_previous = NodePath("../../../HeaderMargin/ButtonsHBox/SettingsButton")
+theme_override_font_sizes/font_size = 24
+alignment = 1
+
+[node name="SubmitButton" type="Button" parent="QuizVBox/AnswerVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath("../AnswerInput")
+focus_neighbor_bottom = NodePath("../../../HeaderMargin/ButtonsHBox/SettingsButton")
+focus_next = NodePath("../../../HeaderMargin/ButtonsHBox/SettingsButton")
+focus_previous = NodePath("../AnswerInput")
+mouse_default_cursor_shape = 2
+text = "SUBMIT ANSWER"
+
+[node name="DialogueMargin" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 350
+theme_override_constants/margin_top = 280
+theme_override_constants/margin_right = 350
+theme_override_constants/margin_bottom = 280
+
+[node name="DialoguePanel" type="Panel" parent="DialogueMargin"]
+layout_mode = 2
+
+[node name="InnerMargin" type="MarginContainer" parent="DialogueMargin/DialoguePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="ErrorVBox" type="VBoxContainer" parent="DialogueMargin/DialoguePanel/InnerMargin"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 48
+
+[node name="ErrorMessage" type="Label" parent="DialogueMargin/DialoguePanel/InnerMargin/ErrorVBox"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "QUIT AND RETURN TO MAIN MENU?"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DialogueMargin/DialoguePanel/InnerMargin/ErrorVBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="YesButton" type="Button" parent="DialogueMargin/DialoguePanel/InnerMargin/ErrorVBox/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../NoButton")
+focus_neighbor_right = NodePath("../NoButton")
+focus_next = NodePath("../NoButton")
+focus_previous = NodePath("../NoButton")
+mouse_default_cursor_shape = 2
+text = "YES"
+
+[node name="NoButton" type="Button" parent="DialogueMargin/DialoguePanel/InnerMargin/ErrorVBox/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../YesButton")
+focus_neighbor_right = NodePath("../YesButton")
+focus_next = NodePath("../YesButton")
+focus_previous = NodePath("../YesButton")
+mouse_default_cursor_shape = 2
+text = "NO"
+
+[node name="AnswerMargin" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 350
+theme_override_constants/margin_top = 215
+theme_override_constants/margin_right = 350
+theme_override_constants/margin_bottom = 215
+
+[node name="AnswerPanel" type="Panel" parent="AnswerMargin"]
+layout_mode = 2
+
+[node name="InnerMargin" type="MarginContainer" parent="AnswerMargin/AnswerPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="AnswerVBox" type="VBoxContainer" parent="AnswerMargin/AnswerPanel/InnerMargin"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 48
+
+[node name="HBoxContainer" type="HBoxContainer" parent="AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="KanjiLabel" type="Label" parent="AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_qr7gd")
+theme_override_font_sizes/font_size = 72
+text = "認"
+horizontal_alignment = 1
+
+[node name="KeywordLabel" type="Label" parent="AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "ACKNOWLEDGE"
+horizontal_alignment = 2
+autowrap_mode = 2
+
+[node name="ResultLabel" type="Label" parent="AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "CORRECT"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="NextButton" type="Button" parent="AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+focus_next = NodePath(".")
+focus_previous = NodePath(".")
+mouse_default_cursor_shape = 2
+text = "NEXT QUESTION"

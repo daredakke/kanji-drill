@@ -5,6 +5,7 @@ extends Control
 @onready var main_menu: MainMenu = %MainMenu
 @onready var settings: Settings = %Settings
 @onready var quiz: Quiz = %Quiz
+@onready var results: Control = %Results
 
 
 func _ready() -> void:

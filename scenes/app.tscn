@@ -3,9 +3,9 @@
 [ext_resource type="Theme" uid="uid://bxdxufrhfbllf" path="res://resources/light.tres" id="1_570bd"]
 [ext_resource type="PackedScene" uid="uid://c2ak6h4w7axdo" path="res://scenes/main_menu.tscn" id="2_b4dbi"]
 [ext_resource type="Script" path="res://scripts/app.gd" id="2_nog32"]
+[ext_resource type="PackedScene" uid="uid://43l1a862jd7s" path="res://scenes/quiz.tscn" id="4_1rtva"]
 [ext_resource type="PackedScene" uid="uid://bwdhpi8u68q5u" path="res://scenes/settings.tscn" id="4_k754o"]
-[ext_resource type="FontFile" uid="uid://dcwyy07odv72x" path="res://assets/fonts/AOTFShinGoProRegular.otf" id="5_0vvsk"]
-[ext_resource type="Script" path="res://scripts/quiz.gd" id="5_3p7uq"]
+[ext_resource type="Script" path="res://scripts/results.gd" id="6_qjyqb"]
 
 [node name="App" type="Control"]
 layout_mode = 3
@@ -30,259 +30,123 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 1
 
-[node name="Quiz" type="Control" parent="."]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("5_3p7uq")
-
-[node name="HeaderMargin" type="MarginContainer" parent="Quiz"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-grow_horizontal = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 24
-
-[node name="QuestionsHBox" type="HBoxContainer" parent="Quiz/HeaderMargin"]
-layout_mode = 2
-
-[node name="QuestionsLabel" type="Label" parent="Quiz/HeaderMargin/QuestionsHBox"]
-layout_mode = 2
-text = "QUESTION:"
-
-[node name="QuestionsValue" type="Label" parent="Quiz/HeaderMargin/QuestionsHBox"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "1000/2000"
-
-[node name="TimeValue" type="Label" parent="Quiz/HeaderMargin"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-text = "00:00"
-
-[node name="ButtonsHBox" type="HBoxContainer" parent="Quiz/HeaderMargin"]
-layout_mode = 2
-size_flags_horizontal = 8
-theme_override_constants/separation = 12
-
-[node name="SettingsButton" type="Button" parent="Quiz/HeaderMargin/ButtonsHBox"]
-unique_name_in_owner = true
-layout_mode = 2
-focus_neighbor_top = NodePath("../../../QuizVBox/AnswerVBox/SubmitButton")
-focus_neighbor_right = NodePath("../MainMenuButton")
-focus_neighbor_bottom = NodePath("../../../QuizVBox/AnswerVBox/AnswerInput")
-focus_next = NodePath("../MainMenuButton")
-focus_previous = NodePath("../../../QuizVBox/AnswerVBox/AnswerInput")
-mouse_default_cursor_shape = 2
-text = "SETTINGS"
-
-[node name="MainMenuButton" type="Button" parent="Quiz/HeaderMargin/ButtonsHBox"]
-unique_name_in_owner = true
-layout_mode = 2
-focus_neighbor_left = NodePath("../SettingsButton")
-focus_neighbor_top = NodePath("../../../QuizVBox/AnswerVBox/SubmitButton")
-focus_neighbor_bottom = NodePath("../../../QuizVBox/AnswerVBox/AnswerInput")
-focus_next = NodePath("../../../QuizVBox/AnswerVBox/AnswerInput")
-focus_previous = NodePath("../SettingsButton")
-mouse_default_cursor_shape = 2
-text = "MAIN MENU"
-
-[node name="QuizVBox" type="VBoxContainer" parent="Quiz"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 48
-
-[node name="KanjiValue" type="Label" parent="Quiz/QuizVBox"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("5_0vvsk")
-theme_override_font_sizes/font_size = 288
-text = "認"
-horizontal_alignment = 1
-
-[node name="AnswerVBox" type="VBoxContainer" parent="Quiz/QuizVBox"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="AnswerInput" type="LineEdit" parent="Quiz/QuizVBox/AnswerVBox"]
-unique_name_in_owner = true
-layout_mode = 2
-focus_neighbor_top = NodePath("../../../HeaderMargin/ButtonsHBox/SettingsButton")
-focus_neighbor_bottom = NodePath("../SubmitButton")
-focus_next = NodePath("../SubmitButton")
-focus_previous = NodePath("../../../HeaderMargin/ButtonsHBox/SettingsButton")
-theme_override_font_sizes/font_size = 24
-alignment = 1
-
-[node name="SubmitButton" type="Button" parent="Quiz/QuizVBox/AnswerVBox"]
-unique_name_in_owner = true
-layout_mode = 2
-focus_neighbor_top = NodePath("../AnswerInput")
-focus_neighbor_bottom = NodePath("../../../HeaderMargin/ButtonsHBox/SettingsButton")
-focus_next = NodePath("../../../HeaderMargin/ButtonsHBox/SettingsButton")
-focus_previous = NodePath("../AnswerInput")
-mouse_default_cursor_shape = 2
-text = "SUBMIT ANSWER"
-
-[node name="DialogueMargin" type="MarginContainer" parent="Quiz"]
+[node name="Quiz" parent="." instance=ExtResource("4_1rtva")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 350
-theme_override_constants/margin_top = 280
-theme_override_constants/margin_right = 350
-theme_override_constants/margin_bottom = 280
-
-[node name="DialoguePanel" type="Panel" parent="Quiz/DialogueMargin"]
-layout_mode = 2
-
-[node name="InnerMargin" type="MarginContainer" parent="Quiz/DialogueMargin/DialoguePanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 24
-
-[node name="ErrorVBox" type="VBoxContainer" parent="Quiz/DialogueMargin/DialoguePanel/InnerMargin"]
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/separation = 48
-
-[node name="ErrorMessage" type="Label" parent="Quiz/DialogueMargin/DialoguePanel/InnerMargin/ErrorVBox"]
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-text = "QUIT AND RETURN TO MAIN MENU?"
-horizontal_alignment = 1
-autowrap_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Quiz/DialogueMargin/DialoguePanel/InnerMargin/ErrorVBox"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="YesButton" type="Button" parent="Quiz/DialogueMargin/DialoguePanel/InnerMargin/ErrorVBox/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-focus_neighbor_left = NodePath("../NoButton")
-focus_neighbor_right = NodePath("../NoButton")
-focus_next = NodePath("../NoButton")
-focus_previous = NodePath("../NoButton")
-mouse_default_cursor_shape = 2
-text = "YES"
-
-[node name="NoButton" type="Button" parent="Quiz/DialogueMargin/DialoguePanel/InnerMargin/ErrorVBox/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-focus_neighbor_left = NodePath("../YesButton")
-focus_neighbor_right = NodePath("../YesButton")
-focus_next = NodePath("../YesButton")
-focus_previous = NodePath("../YesButton")
-mouse_default_cursor_shape = 2
-text = "NO"
-
-[node name="AnswerMargin" type="MarginContainer" parent="Quiz"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 350
-theme_override_constants/margin_top = 215
-theme_override_constants/margin_right = 350
-theme_override_constants/margin_bottom = 215
-
-[node name="AnswerPanel" type="Panel" parent="Quiz/AnswerMargin"]
-layout_mode = 2
-
-[node name="InnerMargin" type="MarginContainer" parent="Quiz/AnswerMargin/AnswerPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 24
-
-[node name="AnswerVBox" type="VBoxContainer" parent="Quiz/AnswerMargin/AnswerPanel/InnerMargin"]
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/separation = 48
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Quiz/AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox"]
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="KanjiLabel" type="Label" parent="Quiz/AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_fonts/font = ExtResource("5_0vvsk")
-theme_override_font_sizes/font_size = 72
-text = "認"
-horizontal_alignment = 1
-
-[node name="KeywordLabel" type="Label" parent="Quiz/AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox/HBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-text = "ACKNOWLEDGE"
-horizontal_alignment = 2
-autowrap_mode = 2
-
-[node name="ResultLabel" type="Label" parent="Quiz/AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 36
-text = "CORRECT"
-horizontal_alignment = 1
-autowrap_mode = 2
-
-[node name="NextButton" type="Button" parent="Quiz/AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox"]
-unique_name_in_owner = true
-layout_mode = 2
-focus_neighbor_top = NodePath(".")
-focus_neighbor_bottom = NodePath(".")
-focus_next = NodePath(".")
-focus_previous = NodePath(".")
-mouse_default_cursor_shape = 2
-text = "NEXT QUESTION"
 
 [node name="Settings" parent="." instance=ExtResource("4_k754o")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
+
+[node name="Results" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_qjyqb")
+
+[node name="HeaderMargin" type="MarginContainer" parent="Results"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 25.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="HeaderHBox" type="HBoxContainer" parent="Results/HeaderMargin"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 48
+
+[node name="AnsweredHBox" type="HBoxContainer" parent="Results/HeaderMargin/HeaderHBox"]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="AnsweredLabel" type="Label" parent="Results/HeaderMargin/HeaderHBox/AnsweredHBox"]
+layout_mode = 2
+text = "CORRECT ANSWERS:"
+
+[node name="AnsweredValue" type="Label" parent="Results/HeaderMargin/HeaderHBox/AnsweredHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1000/2000"
+
+[node name="TimeHBox" type="HBoxContainer" parent="Results/HeaderMargin/HeaderHBox"]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="TimeLabel" type="Label" parent="Results/HeaderMargin/HeaderHBox/TimeHBox"]
+layout_mode = 2
+text = "TIME TAKEN:"
+
+[node name="TimeValue" type="Label" parent="Results/HeaderMargin/HeaderHBox/TimeHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "00:00"
+
+[node name="ListMargin" type="MarginContainer" parent="Results"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 400
+theme_override_constants/margin_top = 96
+theme_override_constants/margin_right = 400
+theme_override_constants/margin_bottom = 120
+
+[node name="ListVBox" type="VBoxContainer" parent="Results/ListMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="IncorrectLabel" type="Label" parent="Results/ListMargin/ListVBox"]
+layout_mode = 2
+text = "INCORRECT ANSWERS"
+horizontal_alignment = 1
+
+[node name="IncorrectList" type="ItemList" parent="Results/ListMargin/ListVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+allow_search = false
+item_count = 13
+item_0/text = "認 - ACKNOWLEDGE"
+item_0/selectable = false
+item_1/text = "者 - SOMEONE"
+item_1/selectable = false
+item_2/text = "人 - COME APART AT THE SEAMS"
+item_3/text = "asdf"
+item_4/text = "asdf"
+item_5/text = "asdf"
+item_6/text = "asdf"
+item_7/text = "asdf"
+item_8/text = "asdf"
+item_9/text = "asdf"
+item_10/text = "asdf"
+item_11/text = "asdf"
+item_12/text = "asdf"
+
+[node name="ButtonMargin" type="MarginContainer" parent="Results"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_bottom = 24
+
+[node name="MainMenuButton" type="Button" parent="Results/ButtonMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "MAIN MENU"
