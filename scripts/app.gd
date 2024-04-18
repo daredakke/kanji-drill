@@ -24,15 +24,24 @@ func _on_quiz_started() -> void:
 	State.change_state(State.Mode.QUIZ)
 
 
+func _on_quiz_ended() -> void:
+	State.change_state(State.Mode.RESULTS)
+
+
 func _handle_state_change(state: State.Mode) -> void:
 	if state == State.Mode.MAIN_MENU:
 		main_menu.show()
 		quiz.hide()
+		results.hide()
 		main_menu.focus_menu()
 	elif state == State.Mode.QUIZ:
 		main_menu.hide()
 		quiz.show()
 		quiz.focus_input()
+	elif State.state == State.Mode.RESULTS:
+		quiz.hide()
+		results.show()
+		results.focus_input()
 
 
 func _settings_closed() -> void:

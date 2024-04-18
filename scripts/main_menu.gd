@@ -16,7 +16,7 @@ signal quit_button_pressed
 @onready var end_spin_box: SpinBox = %EndSpinBox
 @onready var questions_spin_box: SpinBox = %QuestionsSpinBox
 @onready var start_button: Button = %StartButton
-# Error popup`
+# Error popup
 @onready var error_margin: MarginContainer = %ErrorMargin
 @onready var close_error_button: Button = %CloseErrorButton
 
@@ -83,6 +83,7 @@ func _on_start_button_pressed() -> void:
 		close_error_button.grab_focus()
 		return
 	
+	State.generate_quiz()
 	setup_panel.hide()
 	quiz_started.emit()
 

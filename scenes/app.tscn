@@ -99,9 +99,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 400
+theme_override_constants/margin_left = 350
 theme_override_constants/margin_top = 96
-theme_override_constants/margin_right = 400
+theme_override_constants/margin_right = 350
 theme_override_constants/margin_bottom = 120
 
 [node name="ListVBox" type="VBoxContainer" parent="Results/ListMargin"]
@@ -149,4 +149,9 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
+focus_neighbor_top = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+focus_next = NodePath(".")
+focus_previous = NodePath(".")
+mouse_default_cursor_shape = 2
 text = "MAIN MENU"

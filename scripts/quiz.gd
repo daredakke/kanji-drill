@@ -3,6 +3,7 @@ extends Control
 
 
 signal settings_button_pressed
+signal quiz_ended
 
 @onready var questions_value: Label = %QuestionsValue
 @onready var time_value: Label = %TimeValue
