@@ -11,8 +11,9 @@ enum Mode {
 
 var _file: String = "res://kanji.json"
 var _kanji_array = JSON.parse_string(FileAccess.get_file_as_string(_file))
+var _current_question: int = -1
 
-var quiz_array: Array
+var questions_array: Array
 var state: Mode = Mode.MAIN_MENU
 var start: int = 1
 var end: int = 2200
@@ -32,16 +33,27 @@ func valid_setup_values() -> bool:
 	return true
 
 
-func generate_quiz() -> void:
-	quiz_array = []
+func generate_questions() -> void:
+	questions_array = []
+	_current_question = -1
 	
-	while quiz_array.size() < questions:
+	while questions_array.size() < questions:
 		var temp_array: Array
 		
 		temp_array = _kanji_array.slice(start, end + 1)
 		temp_array.shuffle()
-		quiz_array += temp_array
+		questions_array += temp_array
 	
-	if quiz_array.size() > questions:
-		quiz_array = quiz_array.slice(0, questions + 1)
-		
+	if questions_array.size() > questions:
+		questions_array = questions_array.slice(0, questions + 1)
+
+
+func get_next_questions() -> Array:
+	_current_question += 1
+	
+	if _current_question == questions_array.size():
+		change_state(Mode.RESULTS)
+		return []
+	
+	return questions_array[_current_question]
+	
