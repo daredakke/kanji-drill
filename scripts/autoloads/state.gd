@@ -40,12 +40,12 @@ func generate_questions() -> void:
 	while questions_array.size() < questions:
 		var temp_array: Array
 		
-		temp_array = _kanji_array.slice(start, end + 1)
+		temp_array = _kanji_array.slice(start, end)
 		temp_array.shuffle()
 		questions_array += temp_array
 	
 	if questions_array.size() > questions:
-		questions_array = questions_array.slice(0, questions + 1)
+		questions_array = questions_array.slice(0, questions)
 
 
 func get_next_question() -> Dictionary:
