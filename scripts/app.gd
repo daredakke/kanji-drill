@@ -18,10 +18,15 @@ func _ready() -> void:
 	settings.settings_closed.connect(_settings_closed)
 	
 	quiz.settings_button_pressed.connect(settings.focus_menu)
+	
+	State.change_state(State.Mode.MAIN_MENU)
 
 
 func _on_quiz_started() -> void:
 	State.change_state(State.Mode.QUIZ)
+	State.generate_questions()
+	quiz.total_questions = State.questions_array.size()
+	quiz.next_question()
 
 
 func _on_quiz_ended() -> void:

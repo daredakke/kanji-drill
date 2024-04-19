@@ -5,6 +5,10 @@ extends Control
 signal settings_button_pressed
 signal quiz_ended
 
+var _question: Dictionary
+
+var total_questions: int
+
 @onready var questions_value: Label = %QuestionsValue
 @onready var time_value: Label = %TimeValue
 @onready var settings_button: Button = %SettingsButton
@@ -35,7 +39,7 @@ func _ready() -> void:
 	no_button.pressed.connect(_hide_main_menu_dialogue)
 	
 	submit_button.pressed.connect(_check_answer)
-	next_button.pressed.connect(_next_question)
+	next_button.pressed.connect(next_question)
 
 
 func focus_input() -> void:
@@ -43,15 +47,25 @@ func focus_input() -> void:
 	_enable_quiz()
 
 
+func next_question() -> void:
+	answer.hide()
+	focus_input()
+	
+	_question = State.get_next_question()
+	
+	if not _question.is_empty():
+		kanji_value.text = _question.kanji
+		kanji_label.text = _question.kanji
+		keyword_label.text = _question.keyword
+		
+		var current_question := str(State.current_question + 1)
+		questions_value.text = current_question + "/" + str(total_questions)
+
+
 func _check_answer() -> void:
 	answer.show()
 	next_button.grab_focus()
 	_disable_quiz()
-
-
-func _next_question() -> void:
-	answer.hide()
-	focus_input()
 
 
 func _show_settings() -> void:

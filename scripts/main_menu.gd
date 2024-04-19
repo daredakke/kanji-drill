@@ -83,7 +83,6 @@ func _on_start_button_pressed() -> void:
 		close_error_button.grab_focus()
 		return
 	
-	State.generate_quiz()
 	setup_panel.hide()
 	quiz_started.emit()
 
