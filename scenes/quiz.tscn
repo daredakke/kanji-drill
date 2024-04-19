@@ -104,6 +104,7 @@ theme_override_constants/separation = 12
 
 [node name="AnswerInput" type="LineEdit" parent="QuizVBox/AnswerVBox"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 focus_neighbor_top = NodePath("../../../HeaderMargin/ButtonsHBox/SettingsButton")
 focus_neighbor_bottom = NodePath("../SubmitButton")
@@ -208,9 +209,15 @@ layout_mode = 2
 
 [node name="InnerMargin" type="MarginContainer" parent="AnswerMargin/AnswerPanel"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -287.0
+offset_top = -149.0
+offset_right = 287.0
+offset_bottom = 149.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 24
@@ -226,6 +233,7 @@ theme_override_constants/separation = 48
 [node name="HBoxContainer" type="HBoxContainer" parent="AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox"]
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_constants/separation = 48
 
 [node name="KanjiLabel" type="Label" parent="AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox/HBoxContainer"]
 unique_name_in_owner = true
@@ -235,13 +243,21 @@ theme_override_font_sizes/font_size = 72
 text = "認"
 horizontal_alignment = 1
 
-[node name="KeywordLabel" type="Label" parent="AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="KeywordLabel" type="Label" parent="AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 text = "ACKNOWLEDGE"
 horizontal_alignment = 2
-autowrap_mode = 2
+
+[node name="SubmittedLabel" type="Label" parent="AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SUBMITTED: COME APART AT THE SEAMS"
+horizontal_alignment = 2
 
 [node name="ResultLabel" type="Label" parent="AnswerMargin/AnswerPanel/InnerMargin/AnswerVBox"]
 unique_name_in_owner = true

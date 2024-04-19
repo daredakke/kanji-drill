@@ -24,6 +24,7 @@ var total_questions: int
 @onready var answer: MarginContainer = %AnswerMargin
 @onready var kanji_label: Label = %KanjiLabel
 @onready var keyword_label: Label = %KeywordLabel
+@onready var submitted_label: Label = %SubmittedLabel
 @onready var result_label: Label = %ResultLabel
 @onready var next_button: Button = %NextButton
 
@@ -38,16 +39,21 @@ func _ready() -> void:
 	yes_button.pressed.connect(_return_to_main_menu)
 	no_button.pressed.connect(_hide_main_menu_dialogue)
 	
-	submit_button.pressed.connect(_check_answer)
+	answer_input.text_changed.connect(_submit_button_state)
+	answer_input.text_submitted.connect(_on_answer_input_submitted)
+	submit_button.pressed.connect(_on_submit_button_pressed)
 	next_button.pressed.connect(next_question)
 
 
 func focus_input() -> void:
+	answer_input.text = ""
 	answer_input.grab_focus()
+	submit_button.disabled = true
 	_enable_quiz()
 
 
 func next_question() -> void:
+	submitted_label.hide()
 	answer.hide()
 	focus_input()
 	
@@ -62,10 +68,32 @@ func next_question() -> void:
 		questions_value.text = current_question + "/" + str(total_questions)
 
 
-func _check_answer() -> void:
+func _on_answer_input_submitted(new_text: String) -> void:
+	_check_answer(new_text.to_lower())
+
+
+func _on_submit_button_pressed() -> void:
+	_check_answer(answer_input.text.to_lower())
+
+
+func _check_answer(submitted_answer: String) -> void:
+	if submitted_answer == _question.keyword:
+		result_label.text = "CORRECT"
+	else:
+		submitted_label.show()
+		submitted_label.text = submitted_answer
+		result_label.text = "INCORRECT"
+	
 	answer.show()
 	next_button.grab_focus()
 	_disable_quiz()
+
+
+func _submit_button_state(new_text: String) -> void:
+	if new_text != "":
+		submit_button.disabled = false
+	else:
+		submit_button.disabled = true
 
 
 func _show_settings() -> void:
