@@ -3,10 +3,11 @@ extends Control
 
 
 signal settings_button_pressed
-signal quiz_ended
+signal quiz_ended(time_string: String)
 
 var _question: Dictionary
 
+var time_elapsed: float = 0.0
 var total_questions: int
 
 @onready var questions_value: Label = %QuestionsValue
@@ -45,6 +46,15 @@ func _ready() -> void:
 	next_button.pressed.connect(next_question)
 
 
+func _process(delta: float) -> void:
+	if not visible:
+		return
+	
+	time_elapsed += delta
+
+	time_value.text = _get_time_string(time_elapsed)
+
+
 func focus_input() -> void:
 	answer_input.text = ""
 	answer_input.grab_focus()
@@ -58,13 +68,18 @@ func next_question() -> void:
 	
 	_question = State.get_next_question()
 	
-	if not _question.is_empty():
-		kanji_value.text = _question.kanji
-		kanji_label.text = _question.kanji
-		keyword_label.text = _question.keyword
+	if _question.is_empty():
+		quiz_ended.emit(_get_time_string(time_elapsed))
+		State.change_state(State.Mode.RESULTS)
 		
-		var current_question := str(State.current_question + 1)
-		questions_value.text = current_question + "/" + str(total_questions)
+		return
+	
+	kanji_value.text = _question.kanji
+	kanji_label.text = _question.kanji
+	keyword_label.text = _question.keyword
+	
+	var current_question := str(State.current_question + 1)
+	questions_value.text = current_question + "/" + str(total_questions)
 
 
 func _on_answer_input_submitted(new_text: String) -> void:
@@ -84,21 +99,25 @@ func _check_answer(submitted_answer: String) -> void:
 	# Exact match
 	if answer_text == keyword:
 		result_label.text = "CORRECT"
+		State.score += 1.0
 	# Spelling error but same length
 	elif _is_string_anagram(answer_text, keyword) and is_same_length:
 		submitted_label.show()
 		submitted_label.text = "[" + submitted_answer + "]"
 		result_label.text = "CORRECT*"
+		State.score += 1.0
 	# Spelling error but partial answer
 	elif _is_string_anagram(answer_text, keyword) and not is_same_length:
 		submitted_label.show()
 		submitted_label.text = "[" + submitted_answer + "]"
 		result_label.text = "PARTIAL*"
+		State.score += 0.5
 	# Exact match but partial answer
 	elif _is_string_partial(answer_text, keyword):
 		submitted_label.show()
 		submitted_label.text = "[" + submitted_answer + "]"
 		result_label.text = "PARTIAL"
+		State.score += 0.5
 	else:
 		submitted_label.show()
 		submitted_label.text = "[" + submitted_answer + "]"
@@ -202,3 +221,10 @@ func _enable_quiz() -> void:
 		submit_button.disabled = false
 	else:
 		submit_button.disabled = true
+
+
+func _get_time_string(time_elapsed: int) -> String:
+	var seconds = fmod(time_elapsed, 60)
+	var minutes = fmod(time_elapsed, 3600) / 60
+	
+	return "%02d:%02d" % [minutes, seconds]

@@ -18,6 +18,7 @@ var start: int = 1
 var end: int = 2200
 var questions: int = 100
 var current_question: int = -1
+var score: float
 
 
 func change_state(new_state: Mode) -> void:
@@ -36,6 +37,7 @@ func valid_setup_values() -> bool:
 func generate_questions() -> void:
 	questions_array = []
 	current_question = -1
+	score = 0.0
 	
 	while questions_array.size() < questions:
 		var temp_array: Array
@@ -52,7 +54,6 @@ func get_next_question() -> Dictionary:
 	current_question += 1
 	
 	if current_question == questions_array.size():
-		change_state(Mode.RESULTS)
 		return {}
 	
 	return questions_array[current_question]

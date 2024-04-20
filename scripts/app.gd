@@ -18,6 +18,7 @@ func _ready() -> void:
 	settings.settings_closed.connect(_settings_closed)
 	
 	quiz.settings_button_pressed.connect(settings.focus_menu)
+	quiz.quiz_ended.connect(_on_quiz_ended)
 	
 	State.change_state(State.Mode.MAIN_MENU)
 
@@ -29,8 +30,8 @@ func _on_quiz_started() -> void:
 	quiz.next_question()
 
 
-func _on_quiz_ended() -> void:
-	State.change_state(State.Mode.RESULTS)
+func _on_quiz_ended(time_string: String) -> void:
+	results.update_time_value(time_string)
 
 
 func _handle_state_change(state: State.Mode) -> void:
@@ -43,10 +44,12 @@ func _handle_state_change(state: State.Mode) -> void:
 		main_menu.hide()
 		quiz.show()
 		quiz.focus_input()
+		quiz.time_elapsed = 0.0
 	elif State.state == State.Mode.RESULTS:
 		quiz.hide()
 		results.show()
 		results.focus_input()
+		results.update_score()
 
 
 func _settings_closed() -> void:
