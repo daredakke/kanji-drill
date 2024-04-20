@@ -79,6 +79,10 @@ func _on_submit_button_pressed() -> void:
 func _check_answer(submitted_answer: String) -> void:
 	if submitted_answer == _question.keyword:
 		result_label.text = "CORRECT"
+	elif submitted_answer == _strip_keyword(_question.keyword):
+		result_label.text = "CORRECT"
+	elif _is_string_anagram(submitted_answer, _question.keyword):
+		result_label.text = "CORRECT*"
 	else:
 		submitted_label.show()
 		submitted_label.text = submitted_answer
@@ -87,6 +91,41 @@ func _check_answer(submitted_answer: String) -> void:
 	answer.show()
 	next_button.grab_focus()
 	_disable_quiz()
+
+
+func _strip_keyword(str: String) -> String:
+	var new_str := str
+	
+	new_str.replace("-", " ")
+	new_str.replace(".", "")
+	new_str.replace("(", "")
+	new_str.replace(")", "")
+	new_str.strip_edges()
+	
+	return new_str
+
+
+func _is_string_anagram(str_one: String, str_two: String) -> bool:
+	if str_one.length() != str_two.length():
+		return false
+	
+	var string_one_array: Array
+	var string_two_array: Array
+	
+	for char in str_one:
+		string_one_array.push_back(char)
+	
+	for char in str_two:
+		string_two_array.push_back(char)
+	
+	string_one_array.sort()
+	string_two_array.sort()
+	
+	for i in range(string_one_array.size()):
+		if string_one_array[i] != string_two_array[i]:
+			return false
+		
+	return true
 
 
 func _submit_button_state(new_text: String) -> void:
