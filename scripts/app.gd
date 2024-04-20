@@ -11,7 +11,7 @@ extends Control
 func _ready() -> void:
 	State.state_changed.connect(_handle_state_change)
 	
-	main_menu.quiz_started.connect(_on_quiz_started)
+	main_menu.quiz_started.connect(quiz.on_quiz_started)
 	main_menu.settings_button_pressed.connect(settings.focus_menu)
 	main_menu.quit_button_pressed.connect(_quit_game)
 	
@@ -21,13 +21,6 @@ func _ready() -> void:
 	quiz.quiz_ended.connect(_on_quiz_ended)
 	
 	State.change_state(State.Mode.MAIN_MENU)
-
-
-func _on_quiz_started() -> void:
-	State.change_state(State.Mode.QUIZ)
-	State.generate_questions()
-	quiz.total_questions = State.questions_array.size()
-	quiz.next_question()
 
 
 func _on_quiz_ended(time_string: String) -> void:
@@ -44,7 +37,6 @@ func _handle_state_change(state: State.Mode) -> void:
 		main_menu.hide()
 		quiz.show()
 		quiz.focus_input()
-		quiz.time_elapsed = 0.0
 	elif State.state == State.Mode.RESULTS:
 		quiz.hide()
 		results.show()

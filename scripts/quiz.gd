@@ -7,8 +7,9 @@ signal quiz_ended(time_string: String)
 
 var _question: Dictionary
 
-var time_elapsed: float = 0.0
+var time_elapsed := 0.0
 var total_questions: int
+var answers: Array
 
 @onready var questions_value: Label = %QuestionsValue
 @onready var time_value: Label = %TimeValue
@@ -55,6 +56,15 @@ func _process(delta: float) -> void:
 	time_value.text = _get_time_string(time_elapsed)
 
 
+func on_quiz_started() -> void:
+	State.change_state(State.Mode.QUIZ)
+	State.generate_questions()
+	time_elapsed = 0.0
+	total_questions = State.questions_array.size()
+	answers = []
+	next_question()
+
+
 func focus_input() -> void:
 	answer_input.text = ""
 	answer_input.grab_focus()
@@ -94,34 +104,42 @@ func _on_submit_button_pressed() -> void:
 func _check_answer(submitted_answer: String) -> void:
 	var answer_text := _strip_keyword(submitted_answer.to_lower())
 	var keyword := _strip_keyword(_question.keyword.to_lower())
-	var is_same_length: bool = answer_text.length() == keyword.length()
+	var answer_dict := {}
+	var result: String
+	var score := 0.0
 	
 	# Exact match
 	if answer_text == keyword:
-		result_label.text = "CORRECT"
-		State.score += 1.0
+		result = "CORRECT"
+		score = 1.0
 	# Spelling error but same length
-	elif _is_string_anagram(answer_text, keyword) and is_same_length:
+	elif _is_string_exact_anagram(answer_text, keyword):
 		submitted_label.show()
 		submitted_label.text = "[" + submitted_answer + "]"
-		result_label.text = "CORRECT*"
-		State.score += 1.0
-	# Spelling error but partial answer
-	elif _is_string_anagram(answer_text, keyword) and not is_same_length:
+		result = "CORRECT*"
+		score = 1.0
+	# Partial answer with or without spelling errors
+	elif _is_string_partial_anagram(answer_text, keyword):
 		submitted_label.show()
 		submitted_label.text = "[" + submitted_answer + "]"
-		result_label.text = "PARTIAL*"
-		State.score += 0.5
-	# Exact match but partial answer
-	elif _is_string_partial(answer_text, keyword):
-		submitted_label.show()
-		submitted_label.text = "[" + submitted_answer + "]"
-		result_label.text = "PARTIAL"
-		State.score += 0.5
+		result = "PARTIAL"
+		score = 0.5
 	else:
 		submitted_label.show()
 		submitted_label.text = "[" + submitted_answer + "]"
-		result_label.text = "INCORRECT"
+		result = "INCORRECT"
+	
+	if score < 1.0:
+		answer_dict["kanji"] = _question.kanji
+		answer_dict["keyword"] = _question.keyword
+		answer_dict["answer"] = submitted_answer
+		answer_dict["result"] = result
+		answer_dict["score"] = score
+		
+		answers.push_back(answer_dict)
+	
+	State.score += score
+	result_label.text = result
 	
 	answer.show()
 	next_button.grab_focus()
@@ -139,10 +157,8 @@ func _strip_keyword(keyword: String) -> String:
 	return new_str.strip_edges()
 
 
-func _is_string_anagram(given_str: String, compare_str: String) -> bool:
-	if given_str.length() > compare_str.length():
-		return false
-	elif given_str.length() < floori(compare_str.length() * 0.5):
+func _is_string_exact_anagram(given_str: String, compare_str: String) -> bool:
+	if given_str.length() != compare_str.length():
 		return false
 	
 	var string_one_array: Array = []
@@ -162,6 +178,26 @@ func _is_string_anagram(given_str: String, compare_str: String) -> bool:
 			return false
 		
 	return true
+
+
+func _is_string_partial_anagram(given_str: String, compare_str: String) -> bool:
+	# Don't count if given string is too short
+	if given_str.length() < floori(compare_str.length() * 0.5):
+		return false
+	
+	var matches: int = 0
+	
+	for i in range(0, given_str.length()):
+		if not given_str[i] in compare_str:
+			break
+		
+		matches += 1
+		compare_str.replace(given_str[i], "")
+	
+	if matches == given_str.length():
+		return true
+	
+	return false
 
 
 func _is_string_partial(given_str: String, compare_str: String) -> bool:
@@ -223,8 +259,8 @@ func _enable_quiz() -> void:
 		submit_button.disabled = true
 
 
-func _get_time_string(time_elapsed: int) -> String:
-	var seconds = fmod(time_elapsed, 60)
-	var minutes = fmod(time_elapsed, 3600) / 60
+func _get_time_string(time: float) -> String:
+	var seconds = fmod(time, 60)
+	var minutes = fmod(time, 3600) / 60
 	
 	return "%02d:%02d" % [minutes, seconds]
