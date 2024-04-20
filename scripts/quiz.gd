@@ -79,13 +79,22 @@ func _on_submit_button_pressed() -> void:
 func _check_answer(submitted_answer: String) -> void:
 	var answer_text := _strip_keyword(submitted_answer.to_lower())
 	var keyword := _strip_keyword(_question.keyword.to_lower())
+	var is_same_length: bool = answer_text.length() == keyword.length()
 	
+	# Exact match
 	if answer_text == keyword:
 		result_label.text = "CORRECT"
-	elif _is_string_anagram(answer_text, keyword):
+	# Spelling error but same length
+	elif _is_string_anagram(answer_text, keyword) and is_same_length:
 		submitted_label.show()
 		submitted_label.text = "[" + submitted_answer + "]"
 		result_label.text = "CORRECT*"
+	# Spelling error but partial answer
+	elif _is_string_anagram(answer_text, keyword) and not is_same_length:
+		submitted_label.show()
+		submitted_label.text = "[" + submitted_answer + "]"
+		result_label.text = "PARTIAL*"
+	# Exact match but partial answer
 	elif _is_string_partial(answer_text, keyword):
 		submitted_label.show()
 		submitted_label.text = "[" + submitted_answer + "]"
@@ -112,7 +121,9 @@ func _strip_keyword(keyword: String) -> String:
 
 
 func _is_string_anagram(given_str: String, compare_str: String) -> bool:
-	if given_str.length() != compare_str.length():
+	if given_str.length() > compare_str.length():
+		return false
+	elif given_str.length() < floori(compare_str.length() * 0.5):
 		return false
 	
 	var string_one_array: Array = []
