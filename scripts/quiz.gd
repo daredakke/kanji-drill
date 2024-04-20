@@ -48,7 +48,6 @@ func _ready() -> void:
 func focus_input() -> void:
 	answer_input.text = ""
 	answer_input.grab_focus()
-	submit_button.disabled = true
 	_enable_quiz()
 
 
@@ -69,7 +68,8 @@ func next_question() -> void:
 
 
 func _on_answer_input_submitted(new_text: String) -> void:
-	_check_answer(new_text)
+	if new_text != "":
+		_check_answer(new_text)
 
 
 func _on_submit_button_pressed() -> void:
@@ -111,29 +111,17 @@ func _strip_keyword(keyword: String) -> String:
 	return new_str.strip_edges()
 
 
-func _is_string_partial(str_one: String, str_two: String) -> bool:
-	if str_one.length() < floori(str_two.length() * 0.5):
-		return false
-	
-	var test_str := str_two.substr(0, str_one.length())
-	
-	if str_one == test_str:
-		return true
-	
-	return false
-
-
-func _is_string_anagram(str_one: String, str_two: String) -> bool:
-	if str_one.length() != str_two.length():
+func _is_string_anagram(given_str: String, compare_str: String) -> bool:
+	if given_str.length() != compare_str.length():
 		return false
 	
 	var string_one_array: Array = []
 	var string_two_array: Array = []
 	
-	for c in str_one:
+	for c in given_str:
 		string_one_array.push_back(c)
 	
-	for c in str_two:
+	for c in compare_str:
 		string_two_array.push_back(c)
 	
 	string_one_array.sort()
@@ -144,6 +132,19 @@ func _is_string_anagram(str_one: String, str_two: String) -> bool:
 			return false
 		
 	return true
+
+
+func _is_string_partial(given_str: String, compare_str: String) -> bool:
+	# Don't count if given string is too short
+	if given_str.length() < floori(compare_str.length() * 0.5):
+		return false
+	
+	var test_str := compare_str.substr(0, given_str.length())
+	
+	if given_str == test_str:
+		return true
+	
+	return false
 
 
 func _submit_button_state(new_text: String) -> void:
@@ -185,4 +186,8 @@ func _enable_quiz() -> void:
 	settings_button.disabled = false
 	main_menu_button.disabled = false
 	answer_input.editable = true
-	submit_button.disabled = false
+	
+	if answer_input.text != "":
+		submit_button.disabled = false
+	else:
+		submit_button.disabled = true
