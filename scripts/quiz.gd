@@ -69,23 +69,30 @@ func next_question() -> void:
 
 
 func _on_answer_input_submitted(new_text: String) -> void:
-	_check_answer(new_text.to_lower())
+	_check_answer(new_text)
 
 
 func _on_submit_button_pressed() -> void:
-	_check_answer(answer_input.text.to_lower())
+	_check_answer(answer_input.text)
 
 
 func _check_answer(submitted_answer: String) -> void:
-	if submitted_answer == _question.keyword:
+	var answer_text := _strip_keyword(submitted_answer.to_lower())
+	var keyword := _strip_keyword(_question.keyword.to_lower())
+	
+	if answer_text == keyword:
 		result_label.text = "CORRECT"
-	elif submitted_answer == _strip_keyword(_question.keyword):
-		result_label.text = "CORRECT"
-	elif _is_string_anagram(submitted_answer, _question.keyword):
+	elif _is_string_anagram(answer_text, keyword):
+		submitted_label.show()
+		submitted_label.text = "[" + submitted_answer + "]"
 		result_label.text = "CORRECT*"
+	elif _is_string_partial(answer_text, keyword):
+		submitted_label.show()
+		submitted_label.text = "[" + submitted_answer + "]"
+		result_label.text = "PARTIAL"
 	else:
 		submitted_label.show()
-		submitted_label.text = submitted_answer
+		submitted_label.text = "[" + submitted_answer + "]"
 		result_label.text = "INCORRECT"
 	
 	answer.show()
@@ -93,30 +100,41 @@ func _check_answer(submitted_answer: String) -> void:
 	_disable_quiz()
 
 
-func _strip_keyword(str: String) -> String:
-	var new_str := str
+func _strip_keyword(keyword: String) -> String:
+	var new_str := keyword
 	
-	new_str.replace("-", " ")
-	new_str.replace(".", "")
-	new_str.replace("(", "")
-	new_str.replace(")", "")
-	new_str.strip_edges()
+	new_str = new_str.replace("-", " ")
+	new_str = new_str.replace(".", "")
+	new_str = new_str.replace("(", "")
+	new_str = new_str.replace(")", "")
 	
-	return new_str
+	return new_str.strip_edges()
+
+
+func _is_string_partial(str_one: String, str_two: String) -> bool:
+	if str_one.length() < floori(str_two.length() * 0.5):
+		return false
+	
+	var test_str := str_two.substr(0, str_one.length())
+	
+	if str_one == test_str:
+		return true
+	
+	return false
 
 
 func _is_string_anagram(str_one: String, str_two: String) -> bool:
 	if str_one.length() != str_two.length():
 		return false
 	
-	var string_one_array: Array
-	var string_two_array: Array
+	var string_one_array: Array = []
+	var string_two_array: Array = []
 	
-	for char in str_one:
-		string_one_array.push_back(char)
+	for c in str_one:
+		string_one_array.push_back(c)
 	
-	for char in str_two:
-		string_two_array.push_back(char)
+	for c in str_two:
+		string_two_array.push_back(c)
 	
 	string_one_array.sort()
 	string_two_array.sort()
