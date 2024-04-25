@@ -26,23 +26,30 @@ func _ready() -> void:
 	error_margin.hide()
 	show()
 	focus_menu()
-	
+
 	quiz_button.pressed.connect(_show_setup_panel)
 	close_button.pressed.connect(_hide_setup_panel)
 	settings_button.pressed.connect(_show_settings)
 	quit_button.pressed.connect(_quit_game)
-	
+
 	start_spin_box.value_changed.connect(_on_start_spinbox_value_changed)
 	end_spin_box.value_changed.connect(_on_end_spinbox_value_changed)
 	questions_spin_box.value_changed.connect(_on_questions_spinbox_value_changed)
 	start_button.pressed.connect(_on_start_button_pressed)
-	
+
 	close_error_button.pressed.connect(_on_close_error_message)
 
 
 func focus_menu() -> void:
 	_enable_main_menu()
 	quiz_button.grab_focus()
+
+
+func update_spin_boxes(end_size: int) -> void:
+	start_spin_box.max_value = end_size
+	end_spin_box.max_value = end_size
+	end_spin_box.value = end_size
+	questions_spin_box.max_value = end_size
 
 
 func _show_settings() -> void:
@@ -82,7 +89,7 @@ func _on_start_button_pressed() -> void:
 		error_margin.show()
 		close_error_button.grab_focus()
 		return
-	
+
 	setup_panel.hide()
 	quiz_started.emit()
 

@@ -3,7 +3,7 @@ extends Control
 
 
 signal settings_button_pressed
-signal quiz_ended(time_string: String)
+signal quiz_ended(time_string: String, answers: Array)
 
 var _question: Dictionary
 
@@ -35,12 +35,12 @@ func _ready() -> void:
 	hide()
 	dialogue.hide()
 	answer.hide()
-	
+
 	settings_button.pressed.connect(_show_settings)
 	main_menu_button.pressed.connect(_show_main_menu_dialogue)
 	yes_button.pressed.connect(_return_to_main_menu)
 	no_button.pressed.connect(_hide_main_menu_dialogue)
-	
+
 	answer_input.text_changed.connect(_submit_button_state)
 	answer_input.text_submitted.connect(_on_answer_input_submitted)
 	submit_button.pressed.connect(_on_submit_button_pressed)
@@ -50,7 +50,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if not visible:
 		return
-	
+
 	time_elapsed += delta
 
 	time_value.text = _get_time_string(time_elapsed)
@@ -75,19 +75,19 @@ func next_question() -> void:
 	submitted_label.hide()
 	answer.hide()
 	focus_input()
-	
+
 	_question = State.get_next_question()
-	
+
 	if _question.is_empty():
-		quiz_ended.emit(_get_time_string(time_elapsed))
+		quiz_ended.emit(_get_time_string(time_elapsed), answers)
 		State.change_state(State.Mode.RESULTS)
-		
+
 		return
-	
+
 	kanji_value.text = _question.kanji
 	kanji_label.text = _question.kanji
 	keyword_label.text = _question.keyword
-	
+
 	var current_question := str(State.current_question + 1)
 	questions_value.text = current_question + "/" + str(total_questions)
 
@@ -107,7 +107,7 @@ func _check_answer(submitted_answer: String) -> void:
 	var answer_dict := {}
 	var result: String
 	var score := 0.0
-	
+
 	# Exact match
 	if answer_text == keyword:
 		result = "CORRECT"
@@ -128,19 +128,17 @@ func _check_answer(submitted_answer: String) -> void:
 		submitted_label.show()
 		submitted_label.text = "[" + submitted_answer + "]"
 		result = "INCORRECT"
-	
+
 	if score < 1.0:
 		answer_dict["kanji"] = _question.kanji
 		answer_dict["keyword"] = _question.keyword
 		answer_dict["answer"] = submitted_answer
-		answer_dict["result"] = result
-		answer_dict["score"] = score
-		
+
 		answers.push_back(answer_dict)
-	
+
 	State.score += score
 	result_label.text = result
-	
+
 	answer.show()
 	next_button.grab_focus()
 	_disable_quiz()
@@ -148,35 +146,35 @@ func _check_answer(submitted_answer: String) -> void:
 
 func _strip_keyword(keyword: String) -> String:
 	var new_str := keyword
-	
+
 	new_str = new_str.replace("-", " ")
 	new_str = new_str.replace(".", "")
 	new_str = new_str.replace("(", "")
 	new_str = new_str.replace(")", "")
-	
+
 	return new_str.strip_edges()
 
 
 func _is_string_exact_anagram(given_str: String, compare_str: String) -> bool:
 	if given_str.length() != compare_str.length():
 		return false
-	
+
 	var string_one_array: Array = []
 	var string_two_array: Array = []
-	
+
 	for c in given_str:
 		string_one_array.push_back(c)
-	
+
 	for c in compare_str:
 		string_two_array.push_back(c)
-	
+
 	string_one_array.sort()
 	string_two_array.sort()
-	
+
 	for i in range(string_one_array.size()):
 		if string_one_array[i] != string_two_array[i]:
 			return false
-		
+
 	return true
 
 
@@ -184,32 +182,19 @@ func _is_string_partial_anagram(given_str: String, compare_str: String) -> bool:
 	# Don't count if given string is too short
 	if given_str.length() < floori(compare_str.length() * 0.5):
 		return false
-	
+
 	var matches: int = 0
-	
+
 	for i in range(0, given_str.length()):
 		if not given_str[i] in compare_str:
 			break
-		
+
 		matches += 1
 		compare_str.replace(given_str[i], "")
-	
+
 	if matches == given_str.length():
 		return true
-	
-	return false
 
-
-func _is_string_partial(given_str: String, compare_str: String) -> bool:
-	# Don't count if given string is too short
-	if given_str.length() < floori(compare_str.length() * 0.5):
-		return false
-	
-	var test_str := compare_str.substr(0, given_str.length())
-	
-	if given_str == test_str:
-		return true
-	
 	return false
 
 
@@ -252,7 +237,7 @@ func _enable_quiz() -> void:
 	settings_button.disabled = false
 	main_menu_button.disabled = false
 	answer_input.editable = true
-	
+
 	if answer_input.text != "":
 		submit_button.disabled = false
 	else:
@@ -262,5 +247,5 @@ func _enable_quiz() -> void:
 func _get_time_string(time: float) -> String:
 	var seconds = fmod(time, 60)
 	var minutes = fmod(time, 3600) / 60
-	
+
 	return "%02d:%02d" % [minutes, seconds]
