@@ -106,39 +106,31 @@ func _check_answer(submitted_answer: String) -> void:
 	var keyword := _strip_keyword(_question.keyword.to_lower())
 	var answer_dict := {}
 	var result: String
-	var score := 0.0
+	var score: int = 0
 
-	# Exact match
-	if answer_text == keyword:
-		result = "CORRECT"
-		score = 1.0
-	# Spelling error but same length
-	elif _is_string_exact_anagram(answer_text, keyword):
-		submitted_label.show()
-		submitted_label.text = "[" + submitted_answer + "]"
-		result = "CORRECT*"
-		score = 1.0
-	# Partial answer with or without spelling errors
-	elif _is_string_partial_anagram(answer_text, keyword):
-		submitted_label.show()
-		submitted_label.text = "[" + submitted_answer + "]"
-		result = "PARTIAL"
-		score = 0.5
+	score += _compare_length(keyword, answer_text)
+	score += _count_uncommon_chars(keyword, answer_text)
+	
+	if keyword.length() >= answer_text.length():
+		score += _check_word_order(keyword, answer_text)
 	else:
-		submitted_label.show()
-		submitted_label.text = "[" + submitted_answer + "]"
+		score += _check_word_order(answer_text, keyword)
+	
+	if _is_correct(keyword, score):
+		result = "CORRECT"
+		State.score += 1
+	else:
 		result = "INCORRECT"
-
-	if score < 1.0:
 		answer_dict["kanji"] = _question.kanji
 		answer_dict["keyword"] = _question.keyword
 		answer_dict["answer"] = submitted_answer
-
+		
 		answers.push_back(answer_dict)
-
-	State.score += score
+	
+	submitted_label.text = "[" + submitted_answer + "]"
 	result_label.text = result
 
+	submitted_label.show()
 	answer.show()
 	next_button.grab_focus()
 	_disable_quiz()
@@ -149,53 +141,71 @@ func _strip_keyword(keyword: String) -> String:
 
 	new_str = new_str.replace("-", " ")
 	new_str = new_str.replace(".", "")
+	new_str = new_str.replace("'", "")
 	new_str = new_str.replace("(", "")
 	new_str = new_str.replace(")", "")
 
 	return new_str.strip_edges()
 
 
-func _is_string_exact_anagram(given_str: String, compare_str: String) -> bool:
-	if given_str.length() != compare_str.length():
+func _compare_length(keyword: String, input: String) -> int:
+	return abs(keyword.length() - input.length())
+
+
+func _count_uncommon_chars(keyword: String, input: String) -> int:
+	var score := 0
+	var result := keyword
+	
+	for c in input:
+		if c in result:
+			result = result.erase(result.find(c))
+	
+	score = result.length()
+	result = input
+	
+	for c in keyword:
+		if c in result:
+			result = result.erase(result.find(c))
+	
+	return score + result.length()
+
+
+func _check_word_order(keyword: String, input: String) -> int:
+	var previousError := false
+	var score := 0
+	var in_pos := 0
+	var key_pos := 0
+	
+	while in_pos < input.length():
+		previousError = false
+		key_pos = in_pos
+		
+		if key_pos >= keyword.length():
+			break
+		
+		while key_pos < keyword.length():
+			if input[in_pos] == keyword[key_pos]:
+				score -= 1 if previousError else 0
+				in_pos += 1
+				break
+			
+			if not previousError:
+				previousError = true
+				score += 3 if in_pos == 0 else 1
+			
+			key_pos += 1
+			
+			if key_pos >= keyword.length():
+				in_pos += 1
+	
+	return score
+
+
+func _is_correct(keyword: String, score: int):
+	if score > floor(keyword.length() * 0.5):
 		return false
-
-	var string_one_array: Array = []
-	var string_two_array: Array = []
-
-	for c in given_str:
-		string_one_array.push_back(c)
-
-	for c in compare_str:
-		string_two_array.push_back(c)
-
-	string_one_array.sort()
-	string_two_array.sort()
-
-	for i in range(string_one_array.size()):
-		if string_one_array[i] != string_two_array[i]:
-			return false
 
 	return true
-
-
-func _is_string_partial_anagram(given_str: String, compare_str: String) -> bool:
-	# Don't count if given string is too short
-	if given_str.length() < floori(compare_str.length() * 0.5):
-		return false
-
-	var matches: int = 0
-
-	for i in range(0, given_str.length()):
-		if not given_str[i] in compare_str:
-			break
-
-		matches += 1
-		compare_str.replace(given_str[i], "")
-
-	if matches == given_str.length():
-		return true
-
-	return false
 
 
 func _submit_button_state(new_text: String) -> void:
