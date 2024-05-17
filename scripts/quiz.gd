@@ -177,6 +177,7 @@ func _check_word_order(keyword: String, input: String) -> int:
 	var score := 0
 	var in_pos := 0
 	var key_pos := 0
+	var position_errors := 0
 	
 	while in_pos < input.length():
 		previousError = false
@@ -187,7 +188,10 @@ func _check_word_order(keyword: String, input: String) -> int:
 		
 		while key_pos < keyword.length():
 			if input[in_pos] == keyword[key_pos]:
-				score -= 1 if previousError else 0
+				if previousError:
+					score -= 1
+					position_errors += 1
+				
 				in_pos += 1
 				break
 			
@@ -200,11 +204,11 @@ func _check_word_order(keyword: String, input: String) -> int:
 			if key_pos >= keyword.length():
 				in_pos += 1
 	
-	return score
+	return score + floor(position_errors * 0.5)
 
 
 func _is_correct(keyword: String, score: int):
-	if score > floor(keyword.length() * 0.5):
+	if score > ceil(keyword.length() * 0.5):
 		return false
 
 	return true
