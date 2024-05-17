@@ -144,6 +144,8 @@ func _strip_keyword(keyword: String) -> String:
 	new_str = new_str.replace("'", "")
 	new_str = new_str.replace("(", "")
 	new_str = new_str.replace(")", "")
+	new_str = new_str.replace("/", "")
+	new_str = new_str.replace("\\", "")
 
 	return new_str.strip_edges()
 
