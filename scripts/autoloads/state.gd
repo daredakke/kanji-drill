@@ -19,7 +19,7 @@ var start: int = 1
 var end: int
 var questions: int = 100
 var current_question: int = -1
-var score: float
+var score: int
 
 
 func _ready() -> void:
@@ -44,7 +44,7 @@ func valid_setup_values() -> bool:
 func generate_questions() -> void:
 	questions_array = []
 	current_question = -1
-	score = 0.0
+	score = 0
 
 	while questions_array.size() < questions:
 		var temp_array: Array
